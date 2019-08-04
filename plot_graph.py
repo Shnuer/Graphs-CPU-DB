@@ -7,35 +7,30 @@ import cpu_read
 # Create figure for plotting
 fig = plt.figure()
 ax = fig.add_subplot(1, 1, 1)
-xs = []
-ys1 = []
-ys2 = []
 
+# Create list for time line and list with core threads
+time_line = []
+list_core = [[] for num_core in cpu_read.get_percentage_CPU()]
 
+def animate(i, time_line, list_core):
 
-
-def animate(i, xs, ys1, ys2):
-
-    new_value = cpu_read.get_percentage_CPU()
+    # Add time to list time_line
+    time_line.append(dt.datetime.now().strftime('%H:%M:%S'))
+    time_line = time_line[-20:]
     
-    first_core = round(new_value[0], 2)
-    second_core = round(new_value[1], 2)
+    # Add new value core threads to list value_core
+    for value_core, new_value_core in zip(list_core, cpu_read.get_percentage_CPU()):
+        value_core.append(new_value_core)
     
+    # Limit list with core
+    for index_core in range(len(list_core)):
+        list_core[index_core] = list_core[index_core][-20:]
 
-    # Add x and y to lists
-    xs.append(dt.datetime.now().strftime('%H:%M:%S'))
-    ys1.append(first_core)
-    ys2.append(second_core)
 
-    # Limit x and y lists to 20 items
-    xs = xs[-20:]
-    ys1 = ys1[-20:]
-    ys2 = ys2[-20:]
-
-    # Draw x and y lists
+    # Plot graph
     ax.clear()
-    ax.plot(xs, ys1)
-    ax.plot(xs, ys2)
+    for value_core in list_core:
+        ax.plot(time_line, value_core)
 
     # Format plot
     plt.xticks(rotation=45, ha='right')
@@ -44,7 +39,8 @@ def animate(i, xs, ys1, ys2):
     plt.ylabel('Percentage (deg %)')
 
 # Set up plot to call animate() function periodically
-ani = animation.FuncAnimation(fig, animate, fargs=(xs, ys1, ys2), interval=1000)
-while 1:
-    print('Im here')
-    plt.show()
+
+ani = animation.FuncAnimation(fig, animate, fargs=(time_line, list_core), interval=1000)
+
+
+plt.show()
