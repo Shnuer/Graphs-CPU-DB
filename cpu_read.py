@@ -2,7 +2,7 @@ import psutil
 
 def get_percentage_CPU():
 
-    list_with_CPU_utilization_percentage = psutil.cpu_percent(interval=1, percpu=True)
+    list_with_CPU_utilization_percentage = psutil.cpu_percent(interval=0.5, percpu=True)
     return list_with_CPU_utilization_percentage
 
 
