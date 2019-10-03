@@ -33,10 +33,12 @@ try:
     for row in rows:
         for key, values in row.items():
             print(values)
-            val = 'describe ' + values + ';'
-            print(val)
-            # sqlQuery            = 'describe %s;' % values
-            # cursorObject.execute(sqlQuery)
+            
+            sqlQuery            = 'describe ' + values + ';'
+            cursorObject.execute(sqlQuery)
+
+            data = cursorObject.fetchall()
+            print(data)
             
  
         
