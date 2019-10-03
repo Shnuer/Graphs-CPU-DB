@@ -39,10 +39,35 @@ try:
 
             data = cursorObject.fetchall()
             print(data)
-            
+            for val_1 in data:
+                print(val_1['Field'])
  
         
-        
+    sqlQuery            = "INSERT INTO 'Employed' ('id','LastName', 'FirstName', 'DepartmentCode') VALUES (1, 'John', 'James', 255);"    
+    
+    sqlQuery            = "show tables"   
+
+    # Execute the sqlQuery
+    cursorObject.execute(sqlQuery)
+    print('Im here')
+
+    #Fetch all the rows
+    rows                = cursorObject.fetchall()
+    print(type(rows))
+    for row in rows:
+        for key, values in row.items():
+            print(values)
+            
+            sqlQuery            = 'describe ' + values + ';'
+            cursorObject.execute(sqlQuery)
+
+            data = cursorObject.fetchall()
+            print(data)
+            for val_1 in data:
+                print(val_1['Field'])
+
+    # Execute the sqlQuery
+    cursorObject.execute(sqlQuery)
 
 
     print()
