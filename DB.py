@@ -8,9 +8,9 @@ dbName          = "test"
 charSet         = "utf8mb4"
 cusrorType      = pymysql.cursors.DictCursor
 
- 
+ # need autocommit for adding data to table
 connectionObject   = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                     db=dbName, charset=charSet,cursorclass=cusrorType)
+                                     db=dbName, charset=charSet,cursorclass=cusrorType, autocommit=True)
 try:                                   
     # Create a cursor object
     cursorObject        = connectionObject.cursor()                                     
@@ -42,40 +42,54 @@ try:
             for val_1 in data:
                 print(val_1['Field'])
  
-        
-    sqlQuery            = "INSERT INTO 'Employed' ('id','LastName', 'FirstName', 'DepartmentCode') VALUES (1, 'John', 'James', 255);"    
-    
-    sqlQuery            = "show tables"   
+    # add data to table    
+    sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (1, 'John', 'James', 255);"
 
-    # Execute the sqlQuery
+    print(sqlQuery)    
     cursorObject.execute(sqlQuery)
-    print('Im here')
 
-    #Fetch all the rows
-    rows                = cursorObject.fetchall()
-    print(type(rows))
-    for row in rows:
-        for key, values in row.items():
-            print(values)
+
+    sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (2, 'NotJohn', 'NotJames', 256);"
+
+    print(sqlQuery)    
+    cursorObject.execute(sqlQuery)
+
+    sqlQuery            = "SELECT * FROM Employed;"
+
+    print(sqlQuery)    
+    cursorObject.execute(sqlQuery)
+
+    print(cursorObject.fetchall())
+    # # get table
+    # sqlQuery            = "show tables"   
+    # cursorObject.execute(sqlQuery)
+    # print('Im here')
+
+    # #Fetch all the rows
+    # rows                = cursorObject.fetchall()
+    # print(type(rows))
+    # for row in rows:
+    #     for key, values in row.items():
+    #         print(values)
             
-            sqlQuery            = 'describe ' + values + ';'
-            cursorObject.execute(sqlQuery)
+    #         sqlQuery            = 'describe ' + values + ';'
+    #         cursorObject.execute(sqlQuery)
 
-            data = cursorObject.fetchall()
-            print(data)
-            for val_1 in data:
-                print(val_1['Field'])
+    #         data = cursorObject.fetchall()
+    #         print(data)
+    #         for val_1 in data:
+    #             print(val_1['Field'])
 
-    # Execute the sqlQuery
-    cursorObject.execute(sqlQuery)
+    # # Execute the sqlQuery
+    # cursorObject.execute(sqlQuery)
 
 
     print()
     print('Ok Im get all table')
 
 
-    sqlQuery            = "DROP TABLE Employed"   
-    cursorObject.execute(sqlQuery)
+    # sqlQuery            = "DROP TABLE Employed"   
+    # cursorObject.execute(sqlQuery)
     print("Wow")
 
 except Exception as e:
