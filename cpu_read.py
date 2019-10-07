@@ -12,7 +12,7 @@ if __name__ == "__main__":
     in_value = None
     print(psutil.cpu_times())
 
-    while(in_value != '\n'):
+    while(in_value != ' '):
 
         in_value = input("Enter \\n to exit: ")
         list_with_CPU_utilization_percentage = psutil.cpu_percent(interval=1, percpu=True)
