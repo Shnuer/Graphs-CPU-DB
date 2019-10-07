@@ -10,7 +10,7 @@ def commandCreateForMysql():
     list_with_core = cpu_read.get_percentage_CPU()
 
     # maybe change default name table and type headers
-    string_with_create_table = 'CREATE TABLE Employed'
+    string_constant_create_table = 'CREATE TABLE Employed'
     separator = ', '
     type_val = ' int'
 
@@ -28,18 +28,20 @@ def commandCreateForMysql():
     # fill the new list with headers types 
     for val_in_list in range(len(table_header)):
         list_with_val_for_create_command.append(table_header[val_in_list] + type_val)
+
     # list with headers types to string
     string_with_param_for_create_table = separator.join(list_with_val_for_create_command)
 
     # create command for MySQL
-    command_for_create_table = string_with_create_table + '(%s)' % string_with_param_for_create_table
+    command_for_create_table = string_constant_create_table + '(%s)' % string_with_param_for_create_table
 
     return command_for_create_table, table_header
     
 
 
-def commandAddDataToDB():
-    pass
+def commandAddDataToDB(table_header):
+    string_constant_add_value_table = 'INSERT INTO Employed'
+    print(string_constant_add_value_table)
 
 
 if __name__ == "__main__":
