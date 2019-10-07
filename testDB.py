@@ -1,31 +1,42 @@
 import cpu_read
 
-type_variable_for_core = ' int'
-list_with_column_table_of_contents = []
 def commandCreateForMysql():
     """Function return Two Value's:
         
         1) String with command for create table
-        2) List with all num core"""
+        2) List with headers"""
 
     #get list with value percent CPU 
     list_with_core = cpu_read.get_percentage_CPU()
 
-    # constant for create string mysql command
-    string_with_command_mysql = 'CREATE TABLE Employed(id int'
+    # maybe change default name table and type headers
+    string_with_create_table = 'CREATE TABLE Employed'
+    separator = ', '
+    type_val = ' int'
+
+    table_header = []
+    table_header.append('id')
+    
+    # fill in the list in which would be table header: 'id, 1_core, 2_core, ... n_core'
+    for i in range(len(list_with_core)):
+        num_core = i + 1
+        table_header.append('%d_core' % num_core)
+
+    # create new list for adding type header
+    list_with_val_for_create_command = []
+
+    # fill the new list with headers types 
+    for val_in_list in range(len(table_header)):
+        list_with_val_for_create_command.append(table_header[val_in_list] + type_val)
+    # list with headers types to string
+    string_with_param_for_create_table = separator.join(list_with_val_for_create_command)
+
+    # create command for MySQL
+    command_for_create_table = string_with_create_table + '(%s)' % string_with_param_for_create_table
+
+    return command_for_create_table, table_header
     
 
-    # a list in which there will be value with num core
-    list_with_column_table_of_contents =[]
-
-    for i in range(len(list_with_core)):
-        num_core = i+1
-        list_with_column_table_of_contents.append('%d_core'%num_core)
-        string_with_command_mysql = string_with_command_mysql + ', ' + list_with_column_table_of_contents[i] + type_variable_for_core
-
-    string_with_command_mysql = string_with_command_mysql+')'
-
-    return string_with_command_mysql, list_with_column_table_of_contents
 
 def commandAddDataToDB():
     pass
