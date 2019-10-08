@@ -1,10 +1,10 @@
 import datetime as dt
-
-import cpu_read
 from pyqtgraph import QtGui, QtCore
 import numpy as np 
 import pyqtgraph as pg 
 
+import cpu_read
+import mysql_for_graph
 # Create figure for plotting
 
 
@@ -58,17 +58,22 @@ ptr = 0
 p.enableAutoRange('xy', True)
 
 def update():
-    global curve, ptr, p, time_line, value_core
+    global curve, ptr, p, time_line, list_with_value_core
     
     # time_line.append(dt.datetime.now().strftime('%H:%M:%S'))
     time_line.append(ptr)
     ptr += 1
     time_line = time_line[-20:]
 
+    current_value_cpu = cpu_read.get_percentage_CPU()
+    mysql_for_graph.updateTable(current_value_cpu)
     # Add new value core threads to list value_core
-    for value_core, new_value_core in zip(list_core, cpu_read.get_percentage_CPU()):
-        value_core.append(new_value_core)
+    for list_with_value_core, new_value_core in zip(list_core, current_value_cpu):
+        list_with_value_core.append(new_value_core)
+        
     
+        
+    # print(list_with_value_core)
     # Limit list with core
     for index_core in range(len(list_core)):
         list_core[index_core] = list_core[index_core][-20:]
@@ -82,5 +87,7 @@ timer.start(50)
 ## Start Qt event loop unless running in interactive mode or using pyside.
 if __name__ == '__main__':
     import sys
+    mysql_for_graph.createTable()
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         QtGui.QApplication.instance().exec_()
+    mysql_for_graph.deleteTable()

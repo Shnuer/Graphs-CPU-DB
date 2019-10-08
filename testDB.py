@@ -14,11 +14,8 @@ def commandCreateForMysql():
     list_with_core = cpu_read.get_percentage_CPU()
 
     # maybe change default name table and type headers
-    string_constant_create_table = 'CREATE TABLE Employed'
+    string_constant_create_table = 'CREATE TABLE Core_value'
     type_val = ' float(2)'
-
-    # table_header = []
-    
     
     # fill in the list in which would be table header: 'id, 1_core, 2_core, ... n_core'
     for i in range(len(list_with_core)):
@@ -52,8 +49,8 @@ def commandAddDataToDB(current_core_load):
         Output: command for MySQL
     """
     
-    string_constant_add_value_table = 'INSERT INTO Employed'
-
+    string_constant_add_value_table = 'INSERT INTO Core_value'
+    
     # list with headers to string
     headers_list_to_string = separator.join(table_header)
     # list with value CPU to string

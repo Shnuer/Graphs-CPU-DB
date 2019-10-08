@@ -5,7 +5,7 @@ import cpu_read
 # Create a connection object
 dbServerName    = "127.0.0.1"
 dbUser          = "root"
-dbPassword      = "1"
+dbPassword      = ""
 dbName          = "test"
 charSet         = "utf8mb4"
 cusrorType      = pymysql.cursors.DictCursor
