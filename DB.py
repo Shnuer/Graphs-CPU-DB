@@ -1,5 +1,7 @@
 # import the mysql client for python
 import pymysql
+import testDB
+import cpu_read
 # Create a connection object
 dbServerName    = "127.0.0.1"
 dbUser          = "root"
@@ -16,12 +18,15 @@ try:
     cursorObject        = connectionObject.cursor()                                     
 
     # SQL query string
-    sqlQuery            = "CREATE TABLE Employed(id int, LastName varchar(32), FirstName varchar(32), DepartmentCode int)"    
+    sqlQuery = testDB.commandCreateForMysql()
+    print(sqlQuery)
+    # sqlQuery            = "CREATE TABLE Employed(id int, LastName varchar(32), FirstName varchar(32), DepartmentCode int)"    
     
     # Execute the sqlQuery
     cursorObject.execute(sqlQuery)
     # SQL query string
     sqlQuery            = "show tables"   
+
 
     # Execute the sqlQuery
     cursorObject.execute(sqlQuery)
@@ -42,24 +47,28 @@ try:
             for val_1 in data:
                 print(val_1['Field'])
  
-    # add data to table    
-    sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (1, 'John', 'James', 255);"
+    for i in range(10):
+        sqlQuery = testDB.commandAddDataToDB(cpu_read.get_percentage_CPU())
+        cursorObject.execute(sqlQuery)
+    # # add data to table    
+    # sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (1, 'John', 'James', 255);"
 
-    print(sqlQuery)    
-    cursorObject.execute(sqlQuery)
+    # print(sqlQuery)    
+    # cursorObject.execute(sqlQuery)
 
 
-    sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (2, 'NotJohn', 'NotJames', 256);"
+    # sqlQuery            = "INSERT INTO Employed (id, LastName, FirstName, DepartmentCode) VALUES (2, 'NotJohn', 'NotJames', 256);"
 
-    print(sqlQuery)    
-    cursorObject.execute(sqlQuery)
+    # print(sqlQuery)    
+    # cursorObject.execute(sqlQuery)
 
-    sqlQuery            = "SELECT * FROM Employed;"
+    # sqlQuery            = "SELECT * FROM Employed;"
 
-    print(sqlQuery)    
-    cursorObject.execute(sqlQuery)
+    # print(sqlQuery)    
+    # cursorObject.execute(sqlQuery)
 
-    print(cursorObject.fetchall())
+    # print(cursorObject.fetchall())
+
     # # get table
     # sqlQuery            = "show tables"   
     # cursorObject.execute(sqlQuery)
